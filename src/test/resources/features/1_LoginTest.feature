@@ -5,23 +5,23 @@ Feature: Login Tests
   # Test Case = Scenario:
   # Test Steps = Given, When, Then, etc...
 
-  Background:
-    Given The user is on the login page
-
- @selim @login @smoke
-  Scenario: Positive Login Test as Selim
+#  Background:
 #    Given The user is on the login page
+
+ @selim @login @smoke @wip
+  Scenario: Positive Login Test as Selim
+    Given The user is on the login page
     When The user enters valid credentials for Selim
     Then The user should be able to login
 
  @login @rosa @smoke
   Scenario: Positive Login Test as Rosa
-#    Given The user is on the login page
+    Given The user is on the login page
     When The user enters valid credentials for Rosa
     Then The user should be able to login
 
-  @login @mike @wip
+  @login @mike
   Scenario: Positive Login Test as Mike
-#    Given The user is on the login page
+   Given The user is on the login page
     When The user enters valid credentials for Mike
     Then The user should be able to login
