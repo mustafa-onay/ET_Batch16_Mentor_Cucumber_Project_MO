@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
         plugin = {
                 "json:target/cucumber.json",  //burdaki rapor SADECE verify ile olusur (daha Detayli Rapor)
                 "html:target/default-html-reports.html",// bu hem verify ile olusur hemde Run methoduyla
-              //  "pretty" bütün girilen bilgileri konsolda gösteriyor (süslü rapor)
+                "pretty" //bütün girilen bilgileri konsolda gösteriyor (süslü rapor)
         },
         features = "src/test/resources/features",
         glue = "com/euroTech/step_definitions",

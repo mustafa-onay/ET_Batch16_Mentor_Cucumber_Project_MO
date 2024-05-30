@@ -35,4 +35,8 @@ public class LoginStepDefs {
     public void the_user_enters_valid_credentials_for_mike() {
         System.out.println("Mike bilgilerini girdi");
     }
+    @When("The user enters valid credentials email: {string} and password: {string}")
+    public void the_user_enters_valid_credentials_email_and_password(String email, String password) {
+        loginPage.login(email,password);
+    }
 }
