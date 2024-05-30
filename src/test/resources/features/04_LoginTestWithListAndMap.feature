@@ -15,4 +15,4 @@ Feature: Login Functionality Test
     When  The user should be able to login and verifies success login with following map
       | email    | mike@gmail.com |
       | password | mike1234       |
-      | username | mike68         |
+      | username | mike           |
