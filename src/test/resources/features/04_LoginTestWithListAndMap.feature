@@ -1,4 +1,4 @@
-
+@regression
 Feature: Login Functionality Test
 
 

@@ -1,5 +1,6 @@
 package com.euroTech.utilities;
 
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -7,47 +8,77 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class Driver {
-    private Driver(){}
 
-    private static WebDriver driver;
+    private Driver() {}
 
-    public static WebDriver get(){
-        if (driver == null){
-            String browser = ConfigurationReader.get("browser");
+    private static InheritableThreadLocal<WebDriver> driverPool = new InheritableThreadLocal<>();
 
-            switch (browser.toLowerCase()){
-                case "chrome" :
-                    driver = new ChromeDriver();
+    public static WebDriver get() {
+        if (driverPool.get() == null) {
+            //if we pass the driver from terminal then use that one
+            //if we do not pass the driver from terminal then use the one properties file
+            String browser = System.getProperty("browser") != null ? System.getProperty("browser") : ConfigurationReader.get("browser");
+            switch (browser) {
+                case "chrome":
+                    //System.setProperty("webdriver.chrome.driver","src/test/resources/chromedriver.exe");
+
+                    driverPool.set(new ChromeDriver());
+                    break;
+                case "chrome-headless":
+
+                   driverPool.set(new ChromeDriver(new ChromeOptions().addArguments("--headless")));
                     break;
                 case "firefox":
-                    driver = new FirefoxDriver();
-                    break;
-                case "edge":
-                    if (!System.getProperty("os.name").toLowerCase().contains("windows")){
-                        throw new WebDriverException("Your OS does NOT support Edge...");
-                    }
-                    driver = new EdgeDriver();
-                    break;
-                case "chrome-headless" :
-                    driver = new ChromeDriver(new ChromeOptions().addArguments("--headless"));
+
+                    driverPool.set(new FirefoxDriver());
                     break;
                 case "firefox-headless":
-                    driver = new FirefoxDriver(new FirefoxOptions().addArguments("--headless"));
+
+                   driverPool.set(new FirefoxDriver(new FirefoxOptions().addArguments("--headless")));
+                    break;
+                case "edge":
+                    if (!System.getProperty("os.name").toLowerCase().contains("windows"))
+                        throw new WebDriverException("Your OS doesn't support Edge");
+
+                    driverPool.set(new EdgeDriver());
+                    break;
+
+                case "remote_chrome":
+                    ChromeOptions chromeOptions = new ChromeOptions();
+                    chromeOptions.setCapability("platform", Platform.ANY);
+
+                    try{
+                       // driverPool.set(new RemoteWebDriver(new URL("http://remote_IP/wd/hub"),chromeOptions));
+                        driverPool.set(new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"),chromeOptions));
+                    }catch (MalformedURLException e){
+                        e.printStackTrace();
+                    }
+
+                    break;
+                case "remote_firefox":
+                    FirefoxOptions firefoxOptions = new FirefoxOptions();
+                    firefoxOptions.setCapability("platform",Platform.ANY);
+
+                    try{
+                        driverPool.set(new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"),firefoxOptions));
+                    }catch (MalformedURLException e){
+                        e.printStackTrace();
+                    }
                     break;
             }
-            //driver.manage().window().setPosition(new Point(-1000,0));
-            driver.manage().window().maximize();
-        }
 
-        return driver;
+        }
+        return driverPool.get();
     }
 
-    public static void closeDriver(){
-        if (driver != null){
-            driver.quit();
-            driver = null;
-        }
+    public static void closeDriver() {
+       driverPool.get().quit();
+       driverPool.remove();
     }
 }

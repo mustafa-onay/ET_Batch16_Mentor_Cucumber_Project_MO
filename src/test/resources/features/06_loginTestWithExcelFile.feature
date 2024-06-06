@@ -1,6 +1,6 @@
-@wip
+@regression
 Feature: Login Test with Excel File
-
+  @wip
   Scenario Outline: Login Test with Excel
     Given The user is on the login page
     When The user logins with "Your Email" and "Password" using excel: "<path>", "<sheetName>", <rowNumber>
