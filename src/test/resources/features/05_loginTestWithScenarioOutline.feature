@@ -26,7 +26,7 @@ Feature: Login Test DDF
       | rosa@test.com                 | Test123456   | Rosa       |
       | muhammed.mustafa.68@gmail.com | SDETtester68 | Mustafa O  |
       | mike@gmail.com                | mike1234     | mike       |
-  @wip
+
   Scenario Outline: Login With List <"username">
     Given The user is on the login page
     When  The user should be able to login and verifies success login with follows
