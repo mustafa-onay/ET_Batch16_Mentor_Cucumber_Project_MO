@@ -34,7 +34,7 @@ Feature: Login Test DDF
       | <"password"> |
       | <"username"> |
     Examples:
-      | "email"                       | "password"   | "username"  |
-      | mike@gmail.com                | mike1234     | mike        |
-      | rosa@test.com                 | Test123456   | Rosa        |
-      | muhammed.mustafa.68@gmail.com | SDETtester68 | Mustafa O68 |
+      | "email"                       | "password"   | "username" |
+      | mike@gmail.com                | mike1234     | mike       |
+      | rosa@test.com                 | Test123456   | Rosa       |
+      | muhammed.mustafa.68@gmail.com | SDETtester68 | Mustafa O  |
